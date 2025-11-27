@@ -1,8 +1,7 @@
-use chrono::{DateTime, Utc}; 
-use uuid::Uuid;
-use sqlx::FromRow;
+use chrono::{DateTime, Utc};
 use serde::Serialize;
-
+use sqlx::FromRow;
+use uuid::Uuid;
 
 #[derive(Debug, FromRow, Serialize)]
 pub struct Task {

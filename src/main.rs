@@ -1,18 +1,17 @@
+mod queries;
 mod route_utils;
 mod routes;
-mod queries;
 
 #[macro_use]
-extern crate dotenvy_macro; 
+extern crate dotenvy_macro;
 
-
-// use dotenvy::dotenvy; 
-use sqlx::postgres::PgPoolOptions;
-use std::sync::Arc;
+// use dotenvy::dotenvy;
 use axum::{
     Router,
     routing::{get, post},
 };
+use sqlx::postgres::PgPoolOptions;
+use std::sync::Arc;
 
 use routes::{
     create_task_route::create_task_route, delete_task_route::delete_task_route,
@@ -22,22 +21,21 @@ use routes::{
 
 #[tokio::main]
 async fn main() {
-
     let database_url = dotenv!("DATABASE_URL");
     let database_pool_size = dotenv!("DATABASE_POOL_SIZE").parse::<u32>().unwrap_or(5);
 
     if database_url.is_empty() {
         panic!("Required environment variables are not set");
     }
-    
 
-    let pool = PgPoolOptions::new().max_connections(database_pool_size).connect(&database_url).await.expect("Failed to connect to database");
-    
+    let pool = PgPoolOptions::new()
+        .max_connections(database_pool_size)
+        .connect(&database_url)
+        .await
+        .expect("Failed to connect to database");
 
     let router_state = Arc::new(pool);
 
-   
- 
     let app = Router::new()
         .route("/", get(index_route))
         .route("/tasks", get(list_tasks_route))

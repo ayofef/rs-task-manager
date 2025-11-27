@@ -1,4 +1,6 @@
-use crate::route_utils::{api_response::ApiResponse, create_json_body::create_json_body, api_error::ApiError};
+use crate::route_utils::{
+    api_error::ApiError, api_response::ApiResponse, create_json_body::create_json_body,
+};
 use axum::extract::State;
 use serde_json::{Value, json};
 use sqlx::{pool::Pool, postgres::Postgres};
@@ -17,6 +19,6 @@ pub async fn list_tasks_route(State(pool): State<Arc<Pool<Postgres>>>) -> ApiRes
             eprintln!("Error fetching tasks: {:?}", e);
 
             Err(ApiError::InternalError)
-        },
+        }
     }
 }
