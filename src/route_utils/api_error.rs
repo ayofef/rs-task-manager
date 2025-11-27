@@ -42,6 +42,13 @@ impl ApiError {
     }
 }
 
+impl From<sqlx::Error> for ApiError {
+    fn from(err: sqlx::Error) -> Self {
+        eprintln!("Database error: {:?}", err);
+        ApiError::InternalError
+    }
+}
+
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let parsed_error: PreparedApiError = match self {
