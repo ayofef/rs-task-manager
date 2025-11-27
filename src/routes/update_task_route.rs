@@ -27,9 +27,9 @@ pub async fn update_task_route(
 
     let task_result = sqlx::query_as::<_, Task>(UPDATE_TASK_QUERY)
         .bind(payload.id)
-        .bind(payload.description) // Option<String> - None becomes NULL
-        .bind(payload.status) // Option<String> - None becomes NULL
-        .bind(payload.flagged) // Option<bool> - None becomes NULL
+        .bind(payload.description)
+        .bind(payload.status)
+        .bind(payload.flagged)
         .fetch_one(pool.as_ref())
         .await;
 
