@@ -1,0 +1,26 @@
+name: CI - migrations + tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  migrate_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dbmate
+        run: |
+          curl -L -o dbmate https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
+          chmod +x dbmate
+          sudo mv dbmate /usr/local/bin/dbmate
+
+      - name: Run DB migrations (CI-only)
+        env:
+          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}   # points to a PlanetScale dev branch or ephemeral CI DB
+        run: |
+          # run guarded migrations script; script prevents local execution
+          dbmate --migrations-dir=db/migrations up
