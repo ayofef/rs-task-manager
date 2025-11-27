@@ -5,19 +5,17 @@ mod routes;
 #[macro_use]
 extern crate dotenvy_macro;
 
-// use dotenvy::dotenvy;
 use axum::{
     Router,
     routing::{get, post},
 };
-use sqlx::postgres::PgPoolOptions;
-use std::sync::Arc;
-
 use routes::{
     create_task_route::create_task_route, delete_task_route::delete_task_route,
     index_route::index_route, list_tasks_route::list_tasks_route,
     update_task_route::update_task_route,
 };
+use sqlx::postgres::PgPoolOptions;
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() {
