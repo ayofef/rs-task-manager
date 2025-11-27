@@ -1,6 +1,7 @@
 mod queries;
 mod route_utils;
 mod routes;
+mod types;
 
 #[macro_use]
 extern crate dotenvy_macro;

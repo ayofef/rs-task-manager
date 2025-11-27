@@ -1,14 +1,13 @@
+use axum::extract::State;
+use serde_json::{Value, json};
+
+use crate::queries::{list_task_query::LIST_TASKS_QUERY, task::Task};
 use crate::route_utils::{
     api_error::ApiError, api_response::ApiResponse, create_json_body::create_json_body,
 };
-use axum::extract::State;
-use serde_json::{Value, json};
-use sqlx::{pool::Pool, postgres::Postgres};
-use std::sync::Arc;
+use crate::types::db_pool_as_state::DbPoolAsState;
 
-use crate::queries::{list_task_query::LIST_TASKS_QUERY, task::Task};
-
-pub async fn list_tasks_route(State(pool): State<Arc<Pool<Postgres>>>) -> ApiResponse {
+pub async fn list_tasks_route(State(pool): DbPoolAsState) -> ApiResponse {
     let tasks = sqlx::query_as::<_, Task>(LIST_TASKS_QUERY)
         .fetch_all(pool.as_ref())
         .await;
