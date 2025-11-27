@@ -9,5 +9,6 @@ pub struct Task {
     pub description: String,
     pub status: String,
     pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
     pub flagged: bool,
 }
